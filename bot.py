@@ -1,5 +1,6 @@
 import requests
 import time
+memoria = {}
 
 TOKEN = "8772436120:AAGYul1_h-5thzeB8iyQ9BmehaBDy61eSeI"
 
