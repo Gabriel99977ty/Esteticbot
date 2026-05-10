@@ -1,7 +1,7 @@
 import requests
 import time
 
-TOKEN = "SEU_TOKEN_AQUI"
+TOKEN = "8772436120:AAGYul1_h-5thzeB8iyQ9BmehaBDy61eSeI"
 
 url_base = f"https://api.telegram.org/bot{TOKEN}"
 
