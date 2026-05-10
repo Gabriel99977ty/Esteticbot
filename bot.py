@@ -30,7 +30,10 @@ while True:
                 mensagem = update["message"]["text"].lower()
 
                 chat_id = update["message"]["chat"]["id"]
+                if chat_id not in memoria:
+                memoria[chat_id] = {}
 
+                estado = memoria[chat_id]
                 # SAUDAÇÃO
                 if (
                     "oi" in mensagem
@@ -83,17 +86,31 @@ while True:
                 # NÃO ENTENDEU
                 else:
 
-                    resposta_texto = (
-                        "Desculpe 😊\n"
-                        "Ainda não entendi sua mensagem."
-                    )
+    if "agendamento" in mensagem.lower():
 
-                requests.post(
-                    url_base + "/sendMessage",
-                    data={
-                        "chat_id": chat_id,
-                        "text": resposta_texto
-                    }
-                )
+        estado["etapa"] = "esperando_dia"
 
-    time.sleep(2)
+        resposta_texto = "Claro! Qual dia você deseja agendar?"
+
+    elif estado.get("etapa") == "esperando_dia":
+
+        dia = mensagem
+
+        estado["dia"] = dia
+        estado["etapa"] = "esperando_horario"
+
+        resposta_texto = f"Perfeito! Qual horário para {dia}?"
+
+    elif estado.get("etapa") == "esperando_horario":
+
+        horario = mensagem
+
+        dia = estado.get("dia")
+
+        resposta_texto = f"Agendamento anotado para {dia} às {horario}."
+
+        memoria[chat_id] = {}
+
+    else:
+
+        resposta_texto = "Desculpe, não entendi."
